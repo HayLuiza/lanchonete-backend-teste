@@ -1,0 +1,80 @@
+body {
+  background-image: url('https://www.shutterstock.com/image-photo/close-business-woman-using-calculator-600nw-1007741038.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.box-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+  background-color: rgb(51, 95, 131);
+  opacity: 0.89;
+  width: 50vw;
+  height: 70vh;
+}
+
+.box-login h2 {
+  font-size: 35px;
+  color: rgb(250, 253, 255);
+}
+
+.box-login form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  width: 50%;
+}
+
+.box-login form .inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.box-login form .inputs div {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-weight: 500;
+  color: rgb(255, 255, 255);
+}
+
+.box-login form .inputs div input {
+  border: none;
+  border-radius: 3px;
+  padding: 8px;
+  outline: none;
+  font-size: 14px;
+  color: rgb(82, 90, 164);
+}
+
+.box-login form button {
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 10px;
+  color: rgb(255, 255, 255);
+  background-color: #6aa9c2;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.box-login form button:hover {
+  background-color: #309ac4;
+  
+}
+

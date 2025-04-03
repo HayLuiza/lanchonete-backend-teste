@@ -1,0 +1,25 @@
+footer .buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+
+}
+
+footer .buttons button {
+  padding: 10px;
+  width: 170px;
+  border: none;
+  border-radius: 3px;
+  background-color: rgb(48, 101, 143);
+}
+
+footer .buttons button:hover {
+  background-color: rgb(40, 86, 124);
+}
+
+footer .buttons button a {
+  text-decoration: none;
+  color: rgb(211, 235, 255);
+  font-size: 15px;
+  font-weight: 600;
+}

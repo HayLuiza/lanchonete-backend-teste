@@ -1,0 +1,40 @@
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.content .boxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+.content .boxes .box {
+  background-color: aliceblue;
+  border-radius: 10px;
+}
+
+.content .boxes .box a {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 150px;
+  color: rgb(51, 95, 131);
+  font-weight: 600;
+  font-size: 16px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.content .boxes .boxSair {
+  background-color: rgb(82, 148, 205);
+  border-radius: 10px;
+  border: 2px solid rgb(77, 139, 192);
+}
+
+.content .boxes .boxSair a {
+  color: rgb(248, 252, 255);
+}
