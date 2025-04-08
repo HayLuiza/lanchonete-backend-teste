@@ -2,7 +2,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('https://www.shutterstock.com/image-photo/close-business-woman-using-calculator-600nw-1007741038.jpg');
+  background-image: url('../img/WallpaperRestaurante.png');
   background-repeat: no-repeat;
   background-size: cover;
   margin: 0;
@@ -16,10 +16,10 @@ body {
   justify-content: center;
   align-items: center;
   border-radius: 15px;
-  background-color: rgb(51, 95, 131);
+  background-color: rgb(131, 82, 51);
   opacity: 0.89;
   width: 50%;
-  height: 80%;
+  height: 90%;
 
 }
 
@@ -37,7 +37,7 @@ body {
 
 .content .box-login h2 {
   font-size: 35px;
-  color: rgb(167, 213, 243);
+  color: rgb(239, 224, 123);
   margin: 0;
   margin-bottom: 20px;
 }
@@ -85,25 +85,32 @@ body {
   font-size: 16px;
   padding: 10px;
   color: rgb(255, 255, 255);
-  background-color: #6aa9c2;
+  background-color: #d66436;
   font-weight: 700;
   cursor: pointer;
 }
 
 .content .box-login form button:hover {
-  background-color: #309ac4;
+  background-color:  #b23f12;
 }
 
-.content .box-login .alterarLogin {
-  align-self: flex-end;
+.content .box-login .opcoesEntrar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   margin-top: 5px;
 }
 
-.content .box-login .alterarLogin a {
-  color: aliceblue;
+.content .box-login .opcoesEntrar span {
+  margin: 0;
+  padding: 0;
+}
+
+.content .box-login .opcoesEntrar a {
+  color: rgb(242, 233, 176);
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size: 15px;
-  padding-top: 55px;
   text-decoration: none;
 }
 

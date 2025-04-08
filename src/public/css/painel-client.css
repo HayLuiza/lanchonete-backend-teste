@@ -1,0 +1,77 @@
+body {
+  margin: 0;
+  background-color: wheat ;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: aliceblue;
+  height: 30vh;
+  background-color: rgb(131, 82, 51);
+}
+
+header img {
+  width: 20%;
+  color: aliceblue;
+}
+
+header h1 {
+  font-size: 50px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  width: 20vw;
+  background-color: rgb(197, 147, 116);
+  position: fixed;
+}
+
+.navbar .navbar_buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  height: 40vh;
+  width: 15vw;
+}
+
+.navbar .navbar_buttons span a {
+  background-color: rgb(223, 173, 147);
+  padding: 5% 10%;
+  border-radius: 5px;
+  text-decoration: none;
+  color: rgb(131, 82, 51);
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.content {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.content .divs_box {
+  display: flex;
+  height: 70vh;
+  width: 80vw;
+}
+
+.content .divs_box .fazerPedido {
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+.content .divs_box .fazerPedido h3 {
+  font-size: 25px;
+}

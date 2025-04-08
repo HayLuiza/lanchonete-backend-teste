@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Restaurante</title>
+
+  <link rel="stylesheet" href="../../public/css/login-client.css">
+</head>
+<body>
+  <div class="content">
+    <div class="box-login">
+
+      <h2>Cadastre-se</h2>
+  
+      <form id="form_client-login" action="painel-client.html">
+        <div class="inputs">
+          <div>
+            <label>Nome</label>
+            <input type="text" name="name" class="error">
+          </div>
+          <div>
+            <label>E-mail</label>
+            <input type="text" name="email" class="error">
+          </div>
+          <div>
+            <label>Telefone</label>
+            <input type="text" name="telefone" class="error">
+          </div>
+          <div>
+            <label>Endereço</label>
+            <input type="text" name="endereco" class="error">
+          </div>
+          <div>
+            <label>Senha</label>
+            <input type="password" name="password" class="error">
+          </div>
+        </div>
+        <button type="submit">Cadastrar</button>
+      </form>
+
+      <div class="opcoesEntrar">
+        <span class="clientCadastro">
+          <a href="./cliente-login.html">Já tem uma conta?</a>
+        </span>
+
+        <span class="alterarLogin">
+          <a href="../admin/admin-login.html"></a>
+        </span>
+      </div>      
+    </div>
+  </div>
+
+  <script>
+    let formulario = document.querySelector('#form_client-login')
+
+    formulario.onsubmit = function(e) {
+      e.preventDefault()
+
+      temErro = false
+
+      let inputNome = document.forms['form_admin-login']['name']
+      let inputSenha = document.forms['form_admin-login']['password']
+
+      if(!inputNome.value) {
+        inputNome.value = ''
+        inputNome.placeholder = 'Digite corretamente! (validação teste)'
+        temErro = true
+      }
+      
+      if(!inputSenha.value) {
+        inputSenha.value = ''
+        inputSenha.placeholder = 'Digite uma senha correta! (digite qualquer coisa)'
+        temErro = true
+      }
+
+      if (!temErro) {
+        formulario.submit()
+      }
+
+    }
+  </script>
+</body>
+</html>
