@@ -26,20 +26,22 @@ header h1 {
 
 .navbar {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: space-between;
   align-items: center;
-  height: 70vh;
-  width: 20vw;
+  height: 50vh;
+  width: 22vw;
   background-color: rgb(197, 147, 116);
   position: fixed;
+  padding: 8% 0;
 }
 
 .navbar .navbar_buttons {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 80px;
   text-align: center;
-  height: 40vh;
   width: 15vw;
 }
 
@@ -54,6 +56,23 @@ header h1 {
   font-weight: 600;
 }
 
+.navbar .sair {
+  justify-self: center;
+}
+
+.navbar .sair a {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.navbar .sair a:hover {
+  text-decoration:underline;
+}
+
 .content {
   display: flex;
   justify-content: flex-end;
@@ -63,15 +82,25 @@ header h1 {
 
 .content .divs_box {
   display: flex;
+  flex-direction: column;
   height: 70vh;
-  width: 80vw;
+  width: 75vw;
 }
 
-.content .divs_box .fazerPedido {
+.content .divs_box .box {
   margin-top: 20px;
   margin-left: 30px;
 }
 
-.content .divs_box .fazerPedido h3 {
+.content .divs_box .box h3 {
   font-size: 25px;
+  color: rgb(90, 49, 23);
+}
+
+.content .divs_box .box .lista_meusPedidos li {
+  font-size: 18px;
+}
+
+.hidden {
+  display: none;
 }

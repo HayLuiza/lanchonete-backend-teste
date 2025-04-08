@@ -15,15 +15,20 @@
   <nav class="navbar">
     <div class="navbar_buttons">
       <span>
-        <a href="">Meus Pedidos</a>
+        <a id="meusPedidosButton" href="">Meus Pedidos</a>
       </span>
       <span>
-        <a href="">Ver produtos</a>
+        <a id="verProdutosButton" href="">Ver produtos</a>
       </span>
       <span>
-        <a href="">Fazer Pedido</a>
+        <a id="fazerPedidoButton" href="">Fazer Pedido</a>
       </span>
     </div>
+
+    <div class="sair">
+      <a href="./cliente-login.html">Sair</a>
+    </div>
+
   </nav>
 
   <div class="content">
@@ -32,16 +37,67 @@
 
     <div class="divs_box">
 
-      <div class="fazerPedido">
-        <h3>Fazer Pedido</h3>
-      </div>
-  
+      <div id="meusPedidos" class="box meusPedidos">
+        <h3>Meus pedidos</h3>
 
+        <ul id="lista_meusPedidos" class="lista_meusPedidos">
+          <li>teste 1</li>
+          <li>teste 2</li>
+          <li>teste 3</li>          
+        </ul>
+      </div> 
+
+      <div id="verProdutos" class="box verProdutos hidden">
+        <h3>Ver produtos</h3>
+      </div>  
+
+      <div id="fazerPedido" class="box fazerPedido hidden">
+        <h3>Fazer Pedido</h3>
+      </div>  
     </div>
 
     
   </div>
 
+  <script>
+
+    const bttnMeusPedidos = document.querySelector('#meusPedidosButton')
+    const bttnVerProdutos = document.querySelector('#verProdutosButton')
+    const bttnFazerPedidos = document.querySelector('#fazerPedidoButton')
+
+    const divMeusPedidos = document.querySelector('#meusPedidos')
+    const divVerProdutos = document.querySelector('#verProdutos')
+    const divFazerPedidos = document.querySelector('#fazerPedido')
+
+    function eventoNavbar() {
+      bttnMeusPedidos.onclick = function(e) {
+        e.preventDefault()
   
+        divMeusPedidos.classList.remove('hidden')
+        divVerProdutos.classList.add('hidden')
+        divFazerPedidos.classList.add('hidden')
+      }
+      
+      bttnVerProdutos.onclick = function(e) {
+        e.preventDefault()
+  
+        divVerProdutos.classList.remove('hidden')
+        divMeusPedidos.classList.add('hidden')
+        divFazerPedidos.classList.add('hidden')
+      }
+  
+      bttnFazerPedidos.onclick = function(e) {
+        e.preventDefault()
+  
+        divFazerPedidos.classList.remove('hidden')
+        divMeusPedidos.classList.add('hidden')
+        divVerProdutos.classList.add('hidden')
+      }
+    }
+
+    eventoNavbar()
+
+
+  </script>
 </body>
 </html>
