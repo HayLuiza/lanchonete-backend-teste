@@ -13,7 +13,7 @@
 
       <h2>Cadastre-se</h2>
   
-      <form id="form_client-login" action="painel-client.html">
+      <form id="form_client-register">
         <div class="inputs">
           <div>
             <label>Nome</label>
@@ -52,33 +52,64 @@
   </div>
 
   <script>
-    let formulario = document.querySelector('#form_client-login')
-
+    const API_URL = "http://localhost:8080/restaurante/clientes"
+    
+    const formulario = document.querySelector('#form_client-register')
+    const inputs = formulario.querySelectorAll('input')
+    
     formulario.onsubmit = function(e) {
       e.preventDefault()
 
-      temErro = false
+      let temErro = false
+  
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.value = ''
+          input.placeholder = `Preencha o campo ${input.name || 'requerido'} corretamente`
+          temErro = true
+        }
+      })
+  
+      if (temErro === true) return
 
-      let inputNome = document.forms['form_admin-login']['name']
-      let inputSenha = document.forms['form_admin-login']['password']
+      const name = document.forms['form_client-register'].name.value
+      const email = document.forms['form_client-register'].email.value
+      const telefone = document.forms['form_client-register'].telefone.value
+      const endereco = document.forms['form_client-register'].endereco.value
+      const password = document.forms['form_client-register'].password.value
 
-      if(!inputNome.value) {
-        inputNome.value = ''
-        inputNome.placeholder = 'Digite corretamente! (validação teste)'
-        temErro = true
-      }
-      
-      if(!inputSenha.value) {
-        inputSenha.value = ''
-        inputSenha.placeholder = 'Digite uma senha correta! (digite qualquer coisa)'
-        temErro = true
-      }
-
-      if (!temErro) {
-        formulario.submit()
-      }
-
+      fetch (API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          telefone,
+          endereco,
+          password,
+        })
+      }).then (response => {
+        response.json().then(data => {
+          
+          if(data.message === 'success' && temErro === false) {
+            formulario.reset()
+            alert('Cadastro realizado com sucesso!')
+            window.location.href = './cliente-login.html'            
+          } else if (data.message === 'email_existente') {
+            alert('Email já cadastrado!')
+          } else if (data.message === 'telefone_existente') {
+            alert('Telefone já cadastrado!')
+          } else {
+            alert('Ops, ocorreu um erro! Tente novamente!')
+          }
+          
+        })
+      })
     }
+
+
   </script>
 </body>
 </html>

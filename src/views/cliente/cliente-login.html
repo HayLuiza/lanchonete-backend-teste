@@ -13,11 +13,11 @@
       <img class="logoRestaurante" src="../../public/img/logo.png" alt="Logo do Restaurante">
       <h2>Cliente</h2>
   
-      <form id="form_client-login" action="./painel-client.html">
+      <form id="form_client-login">
         <div class="inputs">
           <div>
             <label>E-mail</label>
-            <input type="text" name="name" class="error">
+            <input type="text" name="email" class="error">
           </div>
           <div>
             <label>Senha</label>
@@ -40,9 +40,31 @@
   </div>
 
   <script>
- 
+    const API_URL = "http://localhost:8080/restaurante/clientes"
 
-    
+    const formulario = document.querySelector('#form_client-login')
+
+    formulario.onsubmit = function(e) {
+      e.preventDefault()
+
+      const email = document.forms['form_client-login'].email.value
+      const password = document.forms['form_client-login'].password.value
+
+      fetch('http://localhost:8080/restaurante/clientes/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      }).then(res => res.json())
+      .then(data => {
+        if (data.message === 'success') {        
+          localStorage.setItem('clienteId', data._id) // Salva o ID no localStorage
+                  
+          window.location.href = './painel-client.html' 
+        } else {
+          alert('Email e/ou senha incorretos')
+        }
+      })
+    }    
   </script>
 </body>
 </html>

@@ -33,8 +33,6 @@
 
   <div class="content">
 
-
-
     <div class="divs_box">
 
       <div id="meusPedidos" class="box meusPedidos">
@@ -49,10 +47,24 @@
 
       <div id="verProdutos" class="box verProdutos hidden">
         <h3>Ver produtos</h3>
+        <ul id="produtos-list">
+        </ul>
       </div>  
 
       <div id="fazerPedido" class="box fazerPedido hidden">
         <h3>Fazer Pedido</h3>
+
+        <form id="form_pedido-register" class="form_cadastro">
+
+          <label for="produtos">Escolha os produtos:</label>
+          <div class="inputs" id="lista-produtos">
+            <div class="input">
+            </div>
+          </div>
+    
+          <button type="submit">Fazer Pedido</button>
+        </form>
+
       </div>  
     </div>
 
@@ -68,6 +80,17 @@
     const divMeusPedidos = document.querySelector('#meusPedidos')
     const divVerProdutos = document.querySelector('#verProdutos')
     const divFazerPedidos = document.querySelector('#fazerPedido')
+
+    const API_URL_PRODUTOS = "http://localhost:8080/restaurante/produtos"
+    const API_URL_PEDIDOS = "http://localhost:8080/restaurante/pedidos"
+    const produtosList = document.querySelector('#produtos-list')
+
+    const formulario = document.querySelector('#form_pedido-register')
+    const inputs = formulario.querySelectorAll('input')
+    const listaMeusPedidos = document.querySelector('#lista_meusPedidos')
+    const listaProdutos = formulario.querySelector('#lista-produtos')
+
+    const codCliente = localStorage.getItem('clienteId')
 
     function eventoNavbar() {
       bttnMeusPedidos.onclick = function(e) {
@@ -97,7 +120,123 @@
 
     eventoNavbar()
 
+    async function obterNomeProdutos(codProdutoArray) {
+  return Promise.all(
+    codProdutoArray.map(async codProduto => {
+      try {
+        const response = await fetch(`${API_URL_PRODUTOS}/${codProduto}`);
+        if (!response.ok) throw new Error(`Produto ${codProduto} não encontrado`);
+        const produto = await response.json();
+        return produto.nomeProduto;
+      } catch (error) {
+        console.error(error);
+        return 'Produto não encontrado';
+      }
+    })
+  );
+}
 
+async function obterMeusPedidos() {
+  console.log('codCliente do localStorage:', codCliente);
+
+  try {
+    const response = await fetch(`${API_URL_PEDIDOS}?codCliente=${codCliente}`);
+    const data = await response.json();
+
+    if (data.length === 0) {
+      listaMeusPedidos.innerHTML = `<li>Você ainda não fez nenhum pedido.</li>`;
+    } else {
+      const pedidosHtml = await Promise.all(data.map(async pedido => {
+        const nomesProdutos = await obterNomeProdutos(pedido.codProduto);
+        const produtosHtml = nomesProdutos.map(nome => `<span>${nome}</span>`).join(' - ');
+
+        return `
+          <li class="pedido">
+            <p><strong>Produtos:</strong> ${produtosHtml}</p>
+            <p><strong>Data do Pedido:</strong> ${new Date(pedido.dataCriacao).toLocaleDateString()}</p>
+            <p><strong>Status:</strong> ${pedido.statusPedido}</p>
+          </li>
+        `;
+      }));
+
+      listaMeusPedidos.innerHTML = pedidosHtml.join('');
+    }
+  } catch (error) {
+    console.error('Erro ao buscar pedidos:', error);
+    listaMeusPedidos.innerHTML = `<li>Erro ao carregar seus pedidos. Tente novamente mais tarde.</li>`;
+  }
+}
+
+    obterMeusPedidos()
+
+    function obterLista() {
+      fetch(API_URL_PRODUTOS).then(response => {
+        response.json().then(data => {
+          const produtosHtml = data.map(produto => `
+            <li class="li_Produto">
+              ${produto.nomeProduto} - ${produto.precoProduto}          
+            </li>
+          `).join ('')
+          produtosList.innerHTML = produtosHtml  
+        
+        })
+      }). catch(error => console.log(error))
+    }
+
+    obterLista()
+
+    fetch(API_URL_PRODUTOS)
+    .then(response => response.json())
+    .then(produtos => {
+      listaProdutos.innerHTML = produtos.map(produto => `
+        <div>
+          <input type="checkbox" name="codProduto" value="${produto._id}" id="${produto._id}">
+          <label for="${produto._id}">${produto.nomeProduto} - R$${produto.precoProduto}</label>
+        </div>
+      `).join('');
+    });    
+    
+    formulario.onsubmit = function(e) {
+      e.preventDefault()
+
+      const checkboxes = document.querySelectorAll('input[name="codProduto"]:checked');
+      const codProdutos = Array.from(checkboxes).map(cb => cb.value);
+
+      if (codProdutos.length === 0) {
+        alert('Por favor, selecione pelo menos um produto.');
+        return;
+      }
+
+      const dataCriacao = new Date().toISOString();
+      const statusPedido = "Pendente";
+
+      fetch(API_URL_PEDIDOS, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          codCliente,
+          codProduto: codProdutos,
+          dataCriacao,
+          statusPedido
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'success') {
+          formulario.reset();
+          alert('Pedido realizado com sucesso!')
+          obterMeusPedidos()
+        } else {
+          alert('Erro ao fazer pedido.');
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro na comunicação com o servidor.');
+      });
+    }
   </script>
 </body>
 </html>
