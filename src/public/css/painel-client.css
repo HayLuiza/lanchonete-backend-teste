@@ -11,6 +11,8 @@ header {
   color: aliceblue;
   height: 30vh;
   background-color: rgb(131, 82, 51);
+  z-index: 2;
+  position: relative
 }
 
 header img {
@@ -27,14 +29,15 @@ header h1 {
 .navbar {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  justify-content: space-between;
   align-items: center;
-  height: 50vh;
+  justify-content: end;
+  height: calc(100vh - 30vh);
   width: 22vw;
   background-color: rgb(197, 147, 116);
   position: fixed;
-  padding: 8% 0;
+  top: 0;
+  padding: 10% 0;
+  z-index: 1;
 }
 
 .navbar .navbar_buttons {
@@ -42,6 +45,8 @@ header h1 {
   flex-direction: column;
   gap: 80px;
   text-align: center;
+  background-color: rgb(197, 147, 116);
+  height: 50vh;
   width: 15vw;
 }
 
@@ -97,8 +102,60 @@ header h1 {
   color: rgb(90, 49, 23);
 }
 
-.content .divs_box .box .lista_meusPedidos li {
+.content .divs_box .box ul {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.content .divs_box .box ul li {
   font-size: 18px;
+}
+
+.content .divs_box .fazerPedido {
+  width: 40%;
+}
+
+.content .divs_box .fazerPedido .form_cadastro {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+}
+
+.content .divs_box .fazerPedido .form_cadastro .inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.content .divs_box .fazerPedido .form_cadastro .inputs .input {
+  display: flex;
+  flex-direction: column;
+  color: rgb(11, 47, 77);
+}
+
+.content .divs_box .fazerPedido .form_cadastro .inputs .input input {
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  outline: none;
+  font-size: 13px;
+}
+
+.content .divs_box .fazerPedido .form_cadastro button {
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  padding: 10px;
+  color: rgb(255, 255, 255);
+  background-color: rgb(200, 148, 115);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.content .divs_box .fazerPedido .form_cadastro button:hover {
+  background-color: rgb(171, 115, 80);
 }
 
 .hidden {

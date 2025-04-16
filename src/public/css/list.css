@@ -2,33 +2,76 @@
   display: flex;
   flex-direction: column;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-}
-
-.content .lista {
   margin-top: 50px;
   margin-left: 60px;
 }
 
-
-.content .lista h2 {
+.content h2 {
   font-size: 30px;
 }
 
 .content .lista ul {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 30px;
 }
 
-.content .lista ul .li_Cliente {
+.content .lista ul li {
   font-size: 17px;
+  border: 2px solid rgb(146, 175, 201);
+  border-radius: 5px;
+  background-color: rgb(224, 240, 253);
+  padding: 10px;
+  max-width: 70%;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.content .lista ul .li_Produto {
+.content .lista ul li .botaoEditar{
+  color: rgb(11, 84, 136);
+  font-weight: bold;
+}
+
+.content .lista ul li .botaoExcluir{
+  color: brown;
+  font-weight: bold;
+}
+
+.content #formEdit {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 50%;
+}
+
+.content #formEdit div {
+  display: flex;
+  flex-direction: column;
+}
+
+.content #formEdit div input{
+  padding: 7px;
   font-size: 17px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(224, 240, 253);
 }
 
-.content .lista ul .li_Pedido {
+.content #formEdit button{
+  padding: 8px;
   font-size: 17px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgb(110, 162, 204);
+  color: aliceblue;
+  font-weight: 600;
 }
 
+.content #formEdit button:hover{
+  background-color: rgb(89, 144, 188);
+}
+
+
+.hidden {
+  display: none;
+}
