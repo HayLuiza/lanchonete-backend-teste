@@ -19,9 +19,7 @@
   <div class="content">
     <div class="lista">
       <h2>Lista de Pedidos</h2>
-      <ul>
-        <li class="li_Pedido">Teste</li>
-        <li class="li_Pedido">Teste</li>
+      <ul id="pedidos-list">
       </ul>
     </div>
   </div>
@@ -34,5 +32,94 @@
     </div>
   </footer>
 
+  <script>
+    const API_URL_PEDIDOS = "http://localhost:8080/restaurante/pedidos";
+    const API_URL_PRODUTOS = "http://localhost:8080/restaurante/produtos";
+    const API_URL_CLIENTES = "http://localhost:8080/restaurante/clientes";
+    const pedidosList = document.querySelector('#pedidos-list');
+
+    function obterNomeProduto(codProduto) {
+      return fetch(`${API_URL_PRODUTOS}/${codProduto}`)
+        .then(response => response.json())
+        .then(produto => produto.nomeProduto);
+    }
+
+    function obterEnderecoCliente(codCliente) {
+      return fetch(`${API_URL_CLIENTES}/${codCliente}`)
+        .then(response => response.json())
+        .then(cliente => cliente.endereco);
+    }
+
+    function criarSelectStatus(statusAtual, pedidoId) {
+      const statusOptions = ['Pendente', 'Em preparo', 'Em entrega', 'Entregue', 'Cancelado'];
+
+      return `
+        <select id="status-${pedidoId}">
+          ${statusOptions.map(status => `
+            <option value="${status}" ${status === statusAtual ? 'selected' : ''}>${status}</option>
+          `).join('')}
+        </select>
+      `;
+    }
+
+    function obterLista() {
+      fetch(API_URL_PEDIDOS)
+        .then(response => response.json())
+        .then(async (data) => {
+          const pedidosHtml = await Promise.all(data.map(async (pedido) => {
+            // Buscar nomes dos produtos
+            const produtosNomes = await Promise.all(pedido.codProduto.map(codProduto => obterNomeProduto(codProduto)));
+
+            // Buscar o endereço do cliente
+            const enderecoCliente = await obterEnderecoCliente(pedido.codCliente);
+
+            return `
+              <li class="pedido-admin">
+                <p><strong>ID:</strong> ${pedido._id}</p>
+                <p><strong>Cliente:</strong> ${pedido.codCliente}</p>
+                <p><strong>Endereço:</strong> ${enderecoCliente}</p>
+                <p><strong>Produtos:</strong> ${produtosNomes.join(', ')}</p>
+                <p><strong>Data:</strong> ${new Date(pedido.dataCriacao).toLocaleDateString()}</p>
+                <p><strong>Status:</strong> ${criarSelectStatus(pedido.statusPedido, pedido._id)}</p>
+                <button onclick="salvarStatus('${pedido._id}')">Salvar</button>
+              </li>
+            `;
+          }));
+
+          pedidosList.innerHTML = pedidosHtml.join('');
+        })
+        .catch(error => console.log('Erro ao carregar pedidos:', error));
+    }
+
+    function salvarStatus(pedidoId) {
+      const select = document.querySelector(`#status-${pedidoId}`);
+      const novoStatus = select.value;
+
+      fetch(`${API_URL_PEDIDOS}/${pedidoId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ statusPedido: novoStatus })
+      })
+      .then(response => {
+        if (!response.ok) throw new Error('Erro ao atualizar o status');
+        return response.json();
+      })
+      .then(data => {
+        console.log('Status atualizado com sucesso:', data.pedido.statusPedido);
+        alert('Status atualizado com sucesso!');
+        // Opcional: atualizar a lista
+        // obterLista();
+      })
+      .catch(error => {
+        console.error('Erro ao atualizar o status:', error);
+        alert('Erro ao atualizar o status.');
+      });
+    }
+
+    obterLista();
+
+  </script>
 </body>
 </html>

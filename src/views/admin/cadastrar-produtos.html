@@ -18,16 +18,16 @@
 
   <div class="content">
     
-    <form action="" class="form_cadastro">
+    <form id="form_produto-register" class="form_cadastro">
       <h2>Cadastrar Produtos</h2>
       
       <div class="inputs">
         <div class="input">
-          <label for="">Nome</label>
+          <label for="">Nome do Produto</label>
           <input type="text" name="nomeProduto">
         </div>
         <div class="input">
-          <label for="">Preço</label>
+          <label for="">Preço do Produto</label>
           <input type="text" name="precoProduto">
         </div>
       </div>
@@ -45,9 +45,55 @@
         <a href="./painel-admin.html">Voltar</a>
       </button>
     </div>
-    
   </footer>
 
+  <script>
+    const API_URL = "http://localhost:8080/restaurante/produtos"
+    
+    const formulario = document.querySelector('#form_produto-register')
+    const inputs = formulario.querySelectorAll('input')
+    
+    formulario.onsubmit = function(e) {
+      e.preventDefault()
+
+      let temErro = false
   
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.value = ''
+          input.placeholder = `Preencha o campo corretamente`
+          temErro = true
+        }
+      })
+  
+      if (temErro === true) return
+
+      const nomeProduto = document.forms['form_produto-register'].nomeProduto.value
+      const precoProduto = document.forms['form_produto-register'].precoProduto.value
+  
+
+      fetch (API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          nomeProduto,
+          precoProduto,
+        })
+      }).then (response => {
+        response.json().then(data => {
+          
+          if(data.message === 'success' && temErro === false) {
+            formulario.reset()
+            alert(`Produto ${nomeProduto} cadastrado com sucesso!`)           
+            inputs.placeholder = ''
+          } else {
+            alert('Ops, ocorreu um erro! Tente novamente!')
+          }          
+        })
+      })
+    }
+  </script>
 </body>
 </html>

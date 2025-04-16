@@ -19,10 +19,36 @@
   <div class="content">
     <div class="lista">
       <h2>Lista de Clientes</h2>
-      <ul>
-        <li class="li_Cliente">Teste</li>
-        <li class="li_Cliente">Teste</li>
+      <ul id="clientes-list">
       </ul>
+    </div>
+
+    <div id="edit" class="hidden">
+      <h2>Editar Cliente</h2>
+      <form id="formEdit">
+        <input type="hidden" name="id">
+        <div>
+          <label>Nome</label>
+          <input type="text" name="name">
+        </div>
+
+        <div>
+          <label>Email</label>
+          <input type="text" name="email">
+        </div>
+
+        <div>
+          <label>Telefone</label>
+          <input type="text" name="telefone">
+        </div>
+
+        <div>
+          <label>Endereço</label>
+          <input type="text" name="endereco">
+        </div>
+
+        <button type="submit">Alterar</button>
+      </form>
     </div>
   </div>
 
@@ -37,5 +63,128 @@
     </div>
   </footer>
 
+  <script>
+    const API_URL = "http://localhost:8080/restaurante/clientes"
+    const clientesList = document.querySelector('#clientes-list')
+    const list = document.querySelector('.lista')
+    const edit = document.querySelector('#edit')
+    const formEdit = document.querySelector('#formEdit')
+
+    function adicionaEventoBotaoEditar() {
+      const botoesEditar = document.querySelectorAll('.botaoEditar')
+
+      botoesEditar.forEach(botao => {
+        botao.onclick = function(e) {
+          e.preventDefault()
+
+          edit.classList.remove('hidden')
+          list.classList.add('hidden')
+
+          const id = this.dataset.id
+          const name = this.dataset.name
+          const email = this.dataset.email
+          const telefone = this.dataset.telefone
+          const endereco = this.dataset.endereco
+
+          document.forms['formEdit'].id.value = id 
+          document.forms['formEdit'].name.value = name 
+          document.forms['formEdit'].email.value = email 
+          document.forms['formEdit'].telefone.value = telefone 
+          document.forms['formEdit'].endereco.value = endereco 
+        }        
+      })
+    }
+
+    function adicionaEventoBotaoExcluir() {
+      const botoesExcluir = document.querySelectorAll('.botaoExcluir')
+
+      botoesExcluir.forEach(botao => {
+        botao.onclick = function(e) {
+          e.preventDefault()
+
+          const id = this.dataset.id
+
+          fetch(`${API_URL}/${id}`, {
+            method: 'DELETE',
+          }).then(response => {
+            response.json().then(data => {
+              console.log('Resposta:', data)
+              if (response.ok) {
+                obterLista()
+                alert('Cliente excluído com sucesso!')
+              } else {
+                alert('Ops, deu erro!')
+              }
+            })
+          })
+        }
+      })
+    }
+
+    function obterLista() {
+      fetch(API_URL).then(response => {
+        response.json().then(data => {
+          const clientesHtml = data.map(cliente => `
+            <li class="li_Cliente">
+              ${cliente.name} - ${cliente.email} - ${cliente.telefone} - ${cliente.endereco} - <a href="#" 
+              class="botaoEditar"
+              data-id = "${cliente._id}"
+              data-name = "${cliente.name}"
+              data-email = "${cliente.email}"
+              data-telefone = "${cliente.telefone}"
+              data-endereco = "${cliente.endereco}"
+              >[editar]</a> 
+              
+              <a href="#" 
+              class="botaoExcluir"
+              data-id = "${cliente._id}"
+              >[excluir]</a>          
+            </li>
+          `).join ('')
+          clientesList.innerHTML = clientesHtml  
+          
+          adicionaEventoBotaoEditar()
+          adicionaEventoBotaoExcluir()
+        })
+      }). catch(error => console.log(error))
+    }
+
+    obterLista()
+
+    formEdit.onsubmit = function(e) {
+      e.preventDefault()
+
+      const id = document.forms['formEdit'].id.value
+      const name = document.forms['formEdit'].name.value
+      const email = document.forms['formEdit'].email.value
+      const telefone = document.forms['formEdit'].telefone.value
+      const endereco = document.forms['formEdit'].endereco.value
+
+      fetch(`${API_URL}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify ({
+          name,
+          email,
+          telefone,
+          endereco,
+        })       
+      }).then(response => {
+        response.json().then(data => {
+          if(response.ok) {
+            formEdit.reset()
+            edit.classList.add('hidden')
+            list.classList.remove('hidden')
+            alert('Cliente alterado com sucesso!')
+            obterLista()
+          } else {
+            alert('Ops, deu erro!')
+          }
+        })
+      })
+    }
+  </script>
 </body>
 </html>

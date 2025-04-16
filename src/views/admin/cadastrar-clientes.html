@@ -18,13 +18,13 @@
 
   <div class="content">
     
-    <form action="" class="form_cadastro">
+    <form id="form_client-register" class="form_cadastro">
       <h2>Cadastrar Clientes</h2>
       
       <div class="inputs">
         <div class="input">
           <label for="">Nome</label>
-          <input type="text" name="nome">
+          <input type="text" name="name">
         </div>
         <div class="input">
           <label for="">E-mail</label>
@@ -55,6 +55,62 @@
     </div>
   </footer>
 
+  <script>
+    const API_URL = "http://localhost:8080/restaurante/clientes"
+    
+    const formulario = document.querySelector('#form_client-register')
+    const inputs = formulario.querySelectorAll('input')
+    
+    formulario.onsubmit = function(e) {
+      e.preventDefault()
+
+      let temErro = false
   
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.value = ''
+          input.placeholder = `Preencha o campo ${input.name || 'requerido'} corretamente`
+          temErro = true
+        }
+      })
+  
+      if (temErro === true) return
+
+      const name = document.forms['form_client-register'].name.value
+      const email = document.forms['form_client-register'].email.value
+      const telefone = document.forms['form_client-register'].telefone.value
+      const endereco = document.forms['form_client-register'].endereco.value
+
+      fetch (API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          telefone,
+          endereco,
+          password: ''
+        })
+      }).then (response => {
+        response.json().then(data => {
+          
+          if(data.message === 'success' && temErro === false) {
+            formulario.reset()
+            alert(`Cliente ${name} cadastrado com sucesso!`)           
+            inputs.placeholder = ''
+          } else if (data.message === 'email_existente') {
+            alert('Email já cadastrado!')
+          } else if (data.message === 'telefone_existente') {
+            alert('Telefone já cadastrado!')
+          } else {
+            alert('Ops, ocorreu um erro! Tente novamente!')
+          }
+          
+        })
+      })
+    }
+  </script>
 </body>
 </html>
