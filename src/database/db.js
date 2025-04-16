@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 function connect() {
-  mongoose.connect('mongodb://localhost:27017/lanchonete-teste-backend')
+  mongoose.connect('mongodb://localhost:27017/restaurante')
 
   const db = mongoose.connection
 
